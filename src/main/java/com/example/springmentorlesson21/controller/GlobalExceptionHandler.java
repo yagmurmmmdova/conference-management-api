@@ -5,6 +5,8 @@ import com.example.springmentorlesson21.exception.DuplicateResourceException;
 import com.example.springmentorlesson21.exception.ResourceNotFoundException;
 import com.example.springmentorlesson21.model.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -48,6 +50,16 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.joining(", "));
         log.warn("Validation failed for: {}", message);
 
+        return buildError(HttpStatus.BAD_REQUEST, message, request);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleException(ConstraintViolationException e, HttpServletRequest request) {
+        String message = e.getConstraintViolations().stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.joining(", "));
+        log.warn("Path variable validation failed: {}", message);
         return buildError(HttpStatus.BAD_REQUEST, message, request);
     }
 

@@ -5,8 +5,10 @@ import com.example.springmentorlesson21.model.SpeakerResponseDto;
 import com.example.springmentorlesson21.model.TalkResponseDto;
 import com.example.springmentorlesson21.service.SpeakerService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/speakers")
 @RequiredArgsConstructor
+@Validated
 public class SpeakerController {
     private final SpeakerService speakerService;
 
@@ -29,12 +32,14 @@ public class SpeakerController {
     }
 
     @GetMapping("/{id}")
-    public SpeakerResponseDto getSpeakerById(@PathVariable int id) {
+    public SpeakerResponseDto getSpeakerById(
+            @PathVariable @Positive(message = "Id must be a positive number") int id) {
         return speakerService.getSpeakerById(id);
     }
 
     @GetMapping("/{id}/talks")
-    public List<TalkResponseDto> getTalksBySpeakerId(@PathVariable("id") int speakerId) {
+    public List<TalkResponseDto> getTalksBySpeakerId(
+            @PathVariable("id") @Positive(message = "Id must be a positive number") int speakerId) {
         return speakerService.getTalksBySpeakerId(speakerId);
     }
 }
