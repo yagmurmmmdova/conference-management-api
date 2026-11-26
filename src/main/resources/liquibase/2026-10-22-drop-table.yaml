@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261022-07-drop-session-table
+      author: Jessy
+      changes:
+        - dropTable:
+            tableName: session
+      rollback:
+        - createTable:
+            tableName: session
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: room
+                  type: VARCHAR(50)
+              - column:
+                  name: duration_minutes
+                  type: INT
+              - column:
+                  name: presenter_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_session_presenter
+                    references: presenter(id)

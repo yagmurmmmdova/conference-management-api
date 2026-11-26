@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261022-01-create-presenter-table
+      author: Jessy
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: presenter
+      changes:
+        - createTable:
+            tableName: presenter
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: full_name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(150)
+                  constraints:
+                    unique: true
+      rollback:
+        - dropTable:
+            tableName: presenter

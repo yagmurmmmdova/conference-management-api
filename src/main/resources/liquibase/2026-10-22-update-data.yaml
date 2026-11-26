@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261022-05-update-session
+      author: Jessy
+      changes:
+        - update:
+            tableName: session
+            columns:
+              - column:
+                  name: room
+                  value: "Conference Room B"
+              - column:
+                  name: duration_minutes
+                  valueNumeric: 90
+            where: "id = 1"
+      rollback:
+        - update:
+            tableName: session
+            columns:
+              - column:
+                  name: room
+                  value: "Auditorium A"
+              - column:
+                  name: duration_minutes
+                  valueNumeric: 60
+            where: "id = 1"

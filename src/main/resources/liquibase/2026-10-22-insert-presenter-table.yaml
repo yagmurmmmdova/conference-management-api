@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261022-02-insert-presenter
+      author: Jessy
+      changes:
+        - insert:
+            tableName: presenter
+            columns:
+              - column:
+                  name: full_name
+                  value: "Jane Doe"
+              - column:
+                  name: email
+                  value: "jane.doe@example.com"
+      rollback:
+        - delete:
+            tableName: presenter
+            where: "email = 'jane.doe@example.com'"

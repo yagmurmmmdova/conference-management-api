@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261022-06-delete-session
+      author: Jessy
+      changes:
+        - delete:
+            tableName: session
+            where: "id = 1"
+      rollback:
+        - insert:
+            tableName: session
+            columns:
+              - column:
+                  name: title
+                  value: "Microservices Architecture Workshop"
+              - column:
+                  name: room
+                  value: "Conference Room B"
+              - column:
+                  name: duration_minutes
+                  valueNumeric: 90
+              - column:
+                  name: presenter_id
+                  valueNumeric: 1
