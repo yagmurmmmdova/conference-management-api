@@ -1,23 +1,24 @@
 # Conference Management API
 
-A RESTful backend service built with Spring Boot for managing conference speakers and talks. It enforces domain business rules, provides standardized error handling, and automates background reporting and talk status transitions.
+A RESTful backend service built with Spring Boot for managing conference speakers and talks. It enforces strict request validation and domain business rules, provides standardized error handling, manages database migrations with Liquibase, and automates background reporting and status transitions.
 
 ## Tech Stack
 
 * **Language & Framework:** Java 21, Spring Boot 4.1.1 (Spring Web MVC, Spring Data JPA, Spring Scheduling)
-* **Database:** PostgreSQL
+* **Database & Migration:** PostgreSQL, Liquibase
 * **Validation & Mapping:** Jakarta Bean Validation, MapStruct, Lombok
-* **API Documentation:** SpringDoc OpenAPI (Swagger UI)
+* **API Documentation:** SpringDoc OpenAPI 3 (Swagger UI)
 * **Build Tool:** Gradle
 
 ## Key Features
 
-* **Layered Architecture:** Clean separation across Controller, Service, Repository, Mapper, and Scheduler layers.
-* **Domain Business Rules:**
-  * Enforces unique email addresses per speaker (`409 Conflict`).
-  * Limits each speaker to a maximum of 3 talks (`400 Bad Request`).
-  * Validates talk duration between 15 and 90 minutes.
+* **Layered Architecture:** Clean separation across Config, Controller, Service, Repository, Mapper, and Scheduler layers.
+* **Two-Layer Validation:**
+  * Request-level validation (`@Valid`, `@Validated`) enforcing field constraints and positive path variables before reaching the service layer.
+  * Domain business rules enforcing unique speaker emails (`409 Conflict`), maximum 3 talks per speaker (`400 Bad Request`), and 15–90 minute talk durations.
 * **Global Exception Handling:** Centralized `@RestControllerAdvice` returning consistent `ApiError` payloads (`400`, `404`, `409`, `500`).
+* **Database Migrations:** Version-controlled schema changes and rollback definitions managed via Liquibase YAML changelogs.
+* **Interactive API Docs:** Customized OpenAPI 3 specification (`OpenApiConfig`) with endpoint summaries, response codes, and `ApiError` schemas.
 * **Automated Background Tasks:** Periodic statistics aggregation and cron-based status updates running on a dedicated scheduler thread pool (`pool.size=2`).
 
 ## Getting Started
@@ -27,12 +28,14 @@ A RESTful backend service built with Spring Boot for managing conference speaker
 * PostgreSQL 15+
 
 ### Configuration
-Configure your database and scheduler properties in `src/main/resources/application.properties`:
+Configure your database, Liquibase, and scheduler properties in `src/main/resources/application.properties`:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
 spring.datasource.username=postgres
 spring.datasource.password=<your_password>
+
+spring.liquibase.change-log=classpath:liquibase/changelog-master.yaml
 
 conference.report.rate-ms=30000
 spring.task.scheduling.pool.size=2
