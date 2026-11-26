@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -16,4 +18,7 @@ public class TalkResponseDto {
     private Integer durationMinutes;
     private Integer speakerId;
     private String speakerName;
+
+    private LocalDateTime scheduledAt;
+    private TalkStatus status;
 }

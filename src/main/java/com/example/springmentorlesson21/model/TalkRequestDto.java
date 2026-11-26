@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -24,4 +26,6 @@ public class TalkRequestDto {
     @NotNull(message = "Speaker ID is required")
     private Integer speakerId;
 
+    @NotNull(message = "Scheduled time is required")
+    private LocalDateTime scheduledAt;
 }

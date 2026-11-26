@@ -16,10 +16,12 @@ public interface TalkMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "speaker", ignore = true)
+    @Mapping(target = "status", ignore = true)
     TalkEntity toEntity(TalkRequestDto talkRequestDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "speaker", ignore = true)
+    @Mapping(target = "status", ignore = true)
     void updateEntityFromModel(TalkRequestDto talkRequestDto, @MappingTarget TalkEntity talkEntity);
 
 }

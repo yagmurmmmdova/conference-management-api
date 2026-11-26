@@ -7,6 +7,7 @@ import com.example.springmentorlesson21.exception.ResourceNotFoundException;
 import com.example.springmentorlesson21.mapper.TalkMapper;
 import com.example.springmentorlesson21.model.TalkRequestDto;
 import com.example.springmentorlesson21.model.TalkResponseDto;
+import com.example.springmentorlesson21.model.TalkStatus;
 import com.example.springmentorlesson21.repository.SpeakerRepository;
 import com.example.springmentorlesson21.repository.TalkRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,7 @@ public class TalkService {
         }
         TalkEntity entity = talkMapper.toEntity(talkRequestDto);
         entity.setSpeaker(speaker);
+        entity.setStatus(TalkStatus.SCHEDULED);
         TalkEntity talkEntity = talkRepository.save(entity);
 
         log.info("Talk created with id: {}", talkEntity.getId());

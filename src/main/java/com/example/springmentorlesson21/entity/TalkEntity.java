@@ -1,9 +1,12 @@
 package com.example.springmentorlesson21.entity;
 
+import com.example.springmentorlesson21.model.TalkStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,4 +23,9 @@ public class TalkEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "speaker_id", nullable = false)
     private SpeakerEntity speaker;
+
+    private LocalDateTime scheduledAt;
+
+    @Enumerated(EnumType.STRING)
+    private TalkStatus status;
 }
